@@ -13,7 +13,4 @@ insert_row = """INSERT INTO books (isbn, title, author, year)
                             VALUES (:isbn, :title, :author, :year)
 """
 
-copy_data = """COPY books 
-FROM 'books.csv'
-WITH CSV;
-"""
+copy_data = "COPY books FROM STDIN WITH (FORMAT CSV, HEADER TRUE,DELIMITER ',');"
