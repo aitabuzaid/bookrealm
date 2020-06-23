@@ -3,6 +3,7 @@ import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+
 from queries import create_db, delete_db, copy_data, insert_row
 
 database_url = os.environ['DATABASE_URL']
