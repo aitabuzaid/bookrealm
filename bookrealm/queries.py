@@ -22,6 +22,7 @@ created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 create_users = """CREATE TABLE users (
 id       SERIAL PRIMARY KEY,
 name     VARCHAR NOT NULL,
+username VARCHAR NOT NULL,
 password VARCHAR NOT NULL,
 email    VARCHAR NOT NULL
 );"""
@@ -29,6 +30,10 @@ email    VARCHAR NOT NULL
 
 insert_book = """INSERT INTO books (isbn, title, author, year)
                             VALUES (:isbn, :title, :author, :year)
+"""
+
+insert_user = """INSERT INTO users (name, username, password, email)
+                            VALUES (:name, :username, :password, :email)
 """
 
 copy_books = "COPY books FROM STDIN WITH (FORMAT CSV, HEADER TRUE,DELIMITER ',');"
