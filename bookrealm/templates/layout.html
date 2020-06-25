@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to BookRealm</title>
+    <title>{% block title %}{% endblock %} - BookRealm</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -12,9 +12,36 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"
 </head>
 <body>
-    <h1>Hello</h1>
-    {% block body %}
-    {% endblock %}
+  <div class="jumbotron text-center text-white">
+    <h1>BookRealm</h1>
+    <h6>Your book reference</h6>
+  </div>
 
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+          {% if g.user %}
+            <li class="nav-item">
+             <span>{{ g.user['username'] }}</span>
+            </li>
+            <li class="nav-item">
+             <a class="nav-link" href="{{ url_for('auth.logout')}}">Log Out</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('auth.register')}}">Register</a>
+            </li>
+            <li class="nav-item">
+             <a class="nav-link" href="{{ url_for('auth.login')}}">Log In</a>
+            </li>
+          {% endif %}
+      </ul>
+    </div>
+  </nav>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}
+  {% endblock %}
 </body>
 </html>
