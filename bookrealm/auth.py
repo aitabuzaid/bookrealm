@@ -39,7 +39,7 @@ def register():
                               'email': email}
             )
             db.commit()
-            return redirect(url_for('auth/login'))
+            return redirect(url_for('auth.login'))
 
         flash(error)
     return render_template('auth/register.html')
@@ -65,7 +65,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('books'))
 
         flash(error)
 
@@ -81,14 +81,14 @@ def load_logged_in_user():
     else:
         g.user = get_db().execute(
             'SELECT * FROM users WHERE id = :id',
-            {"id": id}
+            {"id": user_id}
         ).fetchone()
 
 
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('books'))
 
 
 def login_required(view):

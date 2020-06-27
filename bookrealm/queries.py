@@ -38,7 +38,7 @@ insert_user = """INSERT INTO users (name, username, password, email)
 
 copy_books = "COPY books FROM STDIN WITH (FORMAT CSV, HEADER TRUE,DELIMITER ',');"
 
-delete_tables = [delete_users, delete_reviews]#, delete_books]
+delete_tables = [delete_reviews, delete_users]#, delete_books]
 create_tables = [create_users, create_reviews]#, create_books]
 
 
