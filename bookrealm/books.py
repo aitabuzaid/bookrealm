@@ -12,4 +12,8 @@ bp = Blueprint('books', __name__)
 
 @bp.route('/')
 def index():
-    return render_template('books/index.html')
+    db = get_db()
+    books = db.execute(
+        "SELECT isbn, title, author, year FROM books LIMIT 20;"
+    ).fetchall
+    return render_template('books/index.html', books=books)
