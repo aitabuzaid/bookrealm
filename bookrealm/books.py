@@ -14,6 +14,6 @@ bp = Blueprint('books', __name__)
 def index():
     db = get_db()
     books = db.execute(
-        "SELECT isbn, title, author, year FROM books LIMIT 20;"
+        "SELECT isbn, title, author, year FROM books WHERE LOWER(title) LIKE '%dark%' LIMIT 20;"
     ).fetchall()
     return render_template('books/index.html', books=books)
