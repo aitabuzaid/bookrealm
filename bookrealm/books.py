@@ -15,5 +15,5 @@ def index():
     db = get_db()
     books = db.execute(
         "SELECT isbn, title, author, year FROM books LIMIT 20;"
-    ).fetchall
+    ).fetchall()
     return render_template('books/index.html', books=books)
