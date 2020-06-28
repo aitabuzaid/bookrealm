@@ -10,10 +10,19 @@ from bookrealm.db import get_db
 bp = Blueprint('books', __name__)
 
 
-@bp.route('/')
+@bp.route('/', methods=('GET', 'POST'))
 def index():
-    db = get_db()
-    books = db.execute(
-        "SELECT isbn, title, author, year FROM books WHERE LOWER(title) LIKE '%dark%' LIMIT 20;"
-    ).fetchall()
+    books = None
+    if request.method == 'POST':
+        query = request.form['query']
+        db = get_db()
+        books = db.execute(
+        """
+        SELECT isbn, title, author, year 
+        FROM books 
+        WHERE LOWER(isbn) LIKE CONCAT('%',:query,'%')
+        OR LOWER(title) LIKE CONCAT('%',:query,'%')
+        OR LOWER(author) LIKE CONCAT('%',:query,'%')
+        """, {"query": query}
+        ).fetchall()
     return render_template('books/index.html', books=books)

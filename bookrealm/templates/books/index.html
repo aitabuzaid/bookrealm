@@ -1,7 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="container">
-    <h2>BookRealm</h2>
+    <div class="container" style="margin: 50px">
+    <form method="post">
+        <div class="form-group">
+        <label for="query">Search:</label>
+        <input class="form-control" type="text" name="query" id="query" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -12,6 +18,7 @@
         </tr>
         </thead>
         <tbody>
+        {% if books %}
         {% for book in books %}
         <tr>
             <td>{{ book['isbn'] }}</td>
@@ -20,6 +27,7 @@
             <td>{{ book['year'] }}</td>
         </tr>
         {% endfor %}
+        {% endif %}
         </tbody>
     </table>
     </div>
