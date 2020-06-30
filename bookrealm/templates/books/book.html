@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+    <form method="post">
+        <div class="form-group">
+        <label for="query">Write Review:</label>
+        <input class="form-control" type="text" name="query" id="query" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Book Title</th>
+            <th>Review</th>
+            <th>Username</th>
+            <th>Post Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if reviews %}
+        {% for review in reviews %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        </tbody>
+    </table>
+    </div>
+            <p>No reviews</p>
+    {% endif %}
+{% endblock %}
