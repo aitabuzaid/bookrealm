@@ -25,13 +25,15 @@
         {% else %}
             <p>No reviews for this book yet.</p>
         {% endif %}
+    {% if g.user %}
         <form method="post">
             <div class="form-group">
-                <label for="query">Write Review:</label>
-                <input class="form-control" type="text" name="query" id="query" required>
+                <label for="body">Write Review:</label>
+                <input class="form-control" type="text" name="body" id="body" required>
             </div>
             <button type="submit" class="btn btn-primary">Post a review</button>
         </form>
+    {% endif %}
     </div>
 
 
