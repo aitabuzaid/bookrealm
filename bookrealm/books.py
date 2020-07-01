@@ -31,14 +31,27 @@ def index():
 @bp.route('/book/<int:id>', methods=('GET', 'POST'))
 def book(id):
     db = get_db()
+    book_info = db.execute(
+        """
+        SELECT title, author
+        FROM books
+        WHERE id = :id
+        """,
+        {"id": id}
+    ).fetchone()
+
     reviews = db.execute(
         """
-        SELECT *
+        SELECT r.body, r.created, u.name
         FROM books b
         JOIN reviews r
         ON b.id = r.book_id
+        JOIN users u
+        ON r.user_id = u.id
         WHERE b.id = :id
         """,
         {"id": id}
     ).fetchall()
-    return render_template('books/book.html', reviews=reviews)
+    return render_template('books/book.html',
+                           book_info=book_info,
+                           reviews=reviews)

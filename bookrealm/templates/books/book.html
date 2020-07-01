@@ -1,43 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="container">
-    <form method="post">
-        <div class="form-group">
-        <label for="query">Write Review:</label>
-        <input class="form-control" type="text" name="query" id="query" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Post</button>
-    </form>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Book Title</th>
-            <th>Review</th>
-            <th>Username</th>
-            <th>Post Date</th>
-        </tr>
-        </thead>
-        <tbody>
+    <h2>Book name: {{ book_info['title'] }} by {{ book_info['author'] }}</h2>
         {% if reviews %}
-        {% for review in reviews %}
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        {% endfor %}
-        {% else %}
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Review</th>
+                    <th>Name</th>
+                    <th>Post Date</th>
+                </tr>
+                </thead>
+                <tbody>
 
-        </tbody>
-    </table>
+                {% for review in reviews %}
+                    <tr>
+                        <td>{{ review['r.body'] }}</td>
+                        <td>{{ review['u.name'] }}</td>
+                        <td>{{ review['r.created'] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No reviews for this book yet.</p>
+        {% endif %}
+        <form method="post">
+            <div class="form-group">
+                <label for="query">Write Review:</label>
+                <input class="form-control" type="text" name="query" id="query" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Post a review</button>
+        </form>
     </div>
-            <p>No reviews</p>
-    {% endif %}
+
+
 {% endblock %}
