@@ -17,7 +17,7 @@ def index():
         query = request.form['query']
         db = get_db()
         books = db.execute(
-        """
+            """
         SELECT *
         FROM books 
         WHERE LOWER(isbn) LIKE CONCAT('%',:query,'%')
@@ -31,6 +31,26 @@ def index():
 @bp.route('/book/<int:id>', methods=('GET', 'POST'))
 def book(id):
     db = get_db()
+
+    if request.method == 'POST':
+        body = request.form['body']
+
+        error = None
+        if db.execute("""
+        SELECT * FROM reviews 
+        WHERE user_id = :user_id and book_id = :book_id
+        """, {"user_id": g.user[0], "book_id": id}).fetchone() is not None:
+            error = "User {} already posted a review for this book".format(
+                g.user
+            )
+
+        if error is None:
+            db.execute("""
+            INSERT INTO reviews (book_id, user_id, body)
+            VALUES (:book_id, :user_id, :body)
+            """, {"book_id": id, "user_id": g.user[0], "body": body})
+            db.commit()
+
     book_info = db.execute(
         """
         SELECT title, author
@@ -42,7 +62,7 @@ def book(id):
 
     reviews = db.execute(
         """
-        SELECT r.body, r.created, u.name
+        SELECT r.body AS body, r.created AS created, u.name AS name
         FROM books b
         JOIN reviews r
         ON b.id = r.book_id
@@ -52,6 +72,7 @@ def book(id):
         """,
         {"id": id}
     ).fetchall()
+
     return render_template('books/book.html',
                            book_info=book_info,
                            reviews=reviews)

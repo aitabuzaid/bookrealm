@@ -15,9 +15,9 @@
 
                 {% for review in reviews %}
                     <tr>
-                        <td>{{ review['r.body'] }}</td>
-                        <td>{{ review['u.name'] }}</td>
-                        <td>{{ review['r.created'] }}</td>
+                        <td>{{ review['body'] }}</td>
+                        <td>{{ review['name'] }}</td>
+                        <td>{{ review['created'] }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

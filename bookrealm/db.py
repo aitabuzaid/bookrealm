@@ -4,17 +4,25 @@ import click
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from flask import current_app
+from flask import current_app, g
 from flask.cli import with_appcontext
 from bookrealm.queries import delete_tables, create_tables, insert_book
 
+database_url = os.environ['DATABASE_URL']
+
 
 def get_db():
-    database_url = os.environ['DATABASE_URL']
-    engine = create_engine(database_url)
+    if 'db' not in g:
+        engine = create_engine(database_url)
+        g.db = scoped_session(sessionmaker(bind=engine))
+    return g.db
 
-    db = scoped_session(sessionmaker(bind=engine))
-    return db
+
+def close_db(e=None):
+    db = g.pop('db', None)
+
+    if db is not None:
+        db.close()
 
 
 def init_db():
