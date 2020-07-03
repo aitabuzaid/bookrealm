@@ -53,7 +53,7 @@ def book(id):
 
     book_info = db.execute(
         """
-        SELECT title, author
+        SELECT title, author, isbn, year
         FROM books
         WHERE id = :id
         """,

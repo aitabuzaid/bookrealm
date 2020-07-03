@@ -1,13 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="container">
-    <h2>Book name: {{ book_info['title'] }} by {{ book_info['author'] }}</h2>
+        <table class="table table-hover">
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Book Title</td>
+                <td>{{ book_info['title'] }}</td>
+            </tr>
+            <tr>
+                <td>Author</td>
+                <td>{{ book_info['author'] }}</td>
+            </tr>
+            <tr>
+                <td>Book ISBN</td>
+                <td>{{ book_info['isbn'] }}</td>
+            </tr>
+            <tr>
+                <td>Release Year</td>
+                <td>{{ book_info['year'] }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <h2>Book Reviews:</h2>
         {% if reviews %}
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>Review</th>
-                    <th>Name</th>
+                    <th>Posted by</th>
                     <th>Post Date</th>
                 </tr>
                 </thead>
@@ -25,15 +47,15 @@
         {% else %}
             <p>No reviews for this book yet.</p>
         {% endif %}
-    {% if g.user %}
-        <form method="post">
-            <div class="form-group">
-                <label for="body">Write Review:</label>
-                <input class="form-control" type="text" name="body" id="body" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Post a review</button>
-        </form>
-    {% endif %}
+        {% if g.user %}
+            <form method="post">
+                <div class="form-group">
+                    <label for="body">Write Review:</label>
+                    <input class="form-control" type="text" name="body" id="body" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Post a review</button>
+            </form>
+        {% endif %}
     </div>
 
 
