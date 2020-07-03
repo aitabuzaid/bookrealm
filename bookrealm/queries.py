@@ -11,11 +11,14 @@ year    INTEGER NOT NULL
 );
 """
 
-create_reviews = """CREATE TABLE reviews (
+create_reviews = """
+CREATE TYPE rate AS ENUM ('1', '2', '3', '4', '5');
+CREATE TABLE reviews (
 id      SERIAL PRIMARY KEY,
 book_id INTEGER REFERENCES books,
 user_id INTEGER REFERENCES users,
 body    VARCHAR NOT NULL,
+rating  rate NOT NULL,
 created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );"""
 

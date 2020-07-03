@@ -29,6 +29,7 @@
                 <thead>
                 <tr>
                     <th>Review</th>
+                    <th>Rating</th>
                     <th>Posted by</th>
                     <th>Post Date</th>
                 </tr>
@@ -38,6 +39,7 @@
                 {% for review in reviews %}
                     <tr>
                         <td>{{ review['body'] }}</td>
+                        <td>{{ review['rating'] }}</td>
                         <td>{{ review['name'] }}</td>
                         <td>{{ review['created'] }}</td>
                     </tr>
@@ -51,9 +53,18 @@
             <form method="post">
                 <div class="form-group">
                     <label for="body">Write Review:</label>
-                    <input class="form-control" type="text" name="body" id="body" required>
+                    <textarea class="form-control" rows="5" name="body" id="body" required></textarea>
+                    <label for="rating">Select a rating:</label>
+                    <select class="form-control" id="rating" name="rating">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                    <hr>
+                    <button type="submit" class="btn btn-primary">Post a review</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Post a review</button>
             </form>
         {% endif %}
     </div>

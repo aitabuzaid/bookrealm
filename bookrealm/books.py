@@ -34,6 +34,7 @@ def book(id):
 
     if request.method == 'POST':
         body = request.form['body']
+        rating = request.form['rating']
 
         error = None
         if db.execute("""
@@ -46,9 +47,12 @@ def book(id):
 
         if error is None:
             db.execute("""
-            INSERT INTO reviews (book_id, user_id, body)
-            VALUES (:book_id, :user_id, :body)
-            """, {"book_id": id, "user_id": g.user[0], "body": body})
+            INSERT INTO reviews (book_id, user_id, body, rating)
+            VALUES (:book_id, :user_id, :body, :rating)
+            """, {"book_id": id,
+                  "user_id": g.user[0],
+                  "body": body,
+                  "rating": rating})
             db.commit()
 
     book_info = db.execute(
@@ -62,7 +66,10 @@ def book(id):
 
     reviews = db.execute(
         """
-        SELECT r.body AS body, r.created AS created, u.name AS name
+        SELECT r.body AS body,
+               r.created AS created,
+               u.name AS name,
+               r.rating AS rating
         FROM books b
         JOIN reviews r
         ON b.id = r.book_id
