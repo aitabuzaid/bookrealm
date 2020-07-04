@@ -11,14 +11,14 @@ year    INTEGER NOT NULL
 );
 """
 
+# CREATE TYPE rate AS ENUM ('1', '2', '3', '4', '5');
 create_reviews = """
-CREATE TYPE rate AS ENUM ('1', '2', '3', '4', '5');
 CREATE TABLE reviews (
 id      SERIAL PRIMARY KEY,
 book_id INTEGER REFERENCES books,
 user_id INTEGER REFERENCES users,
 body    VARCHAR NOT NULL,
-rating  rate NOT NULL,
+rating  INTEGER NOT NULL,
 created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );"""
 
@@ -30,7 +30,6 @@ password VARCHAR NOT NULL,
 email    VARCHAR NOT NULL
 );"""
 
-
 insert_book = """INSERT INTO books (isbn, title, author, year)
                             VALUES (:isbn, :title, :author, :year)
 """
@@ -41,12 +40,5 @@ insert_user = """INSERT INTO users (name, username, password, email)
 
 copy_books = "COPY books FROM STDIN WITH (FORMAT CSV, HEADER TRUE,DELIMITER ',');"
 
-delete_tables = [delete_reviews, delete_users]#, delete_books]
-create_tables = [create_users, create_reviews]#, create_books]
-
-
-
-
-
-
-
+delete_tables = [delete_reviews, delete_users]  # , delete_books]
+create_tables = [create_users, create_reviews]  # , create_books]

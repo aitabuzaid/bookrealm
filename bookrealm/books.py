@@ -80,6 +80,17 @@ def book(id):
         {"id": id}
     ).fetchall()
 
+    review_stats = db.execute(
+        """
+        SELECT COUNT(*) as count,
+               ROUND(AVG(rating), 2) AS avg_rating
+        from reviews
+        WHERE book_id = :id
+        """,
+        {"id": id}
+    ).fetchall()
+
     return render_template('books/book.html',
                            book_info=book_info,
-                           reviews=reviews)
+                           reviews=reviews,
+                           review_stats=review_stats)
