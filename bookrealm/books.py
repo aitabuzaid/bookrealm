@@ -6,9 +6,10 @@ from werkzeug.exceptions import abort
 
 from bookrealm.auth import login_required
 from bookrealm.db import get_db
+import requests, os
 
 bp = Blueprint('books', __name__)
-
+gr_key = os.environ['GR_KEY']
 
 @bp.route('/', methods=('GET', 'POST'))
 def index():
@@ -88,9 +89,15 @@ def book(id):
         WHERE book_id = :id
         """,
         {"id": id}
-    ).fetchall()
+    ).fetchone()
+
+    gr_book_info = requests.get("https://www.goodreads.com/book/review_counts.json",
+                                  params={"key": gr_key, "isbns": book_info['isbn']}).json()
+
+
 
     return render_template('books/book.html',
                            book_info=book_info,
                            reviews=reviews,
-                           review_stats=review_stats)
+                           review_stats=review_stats,
+                           gr_book_info=gr_book_info['books'][0])

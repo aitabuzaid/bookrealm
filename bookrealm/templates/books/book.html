@@ -22,12 +22,20 @@
                 <td>{{ book_info['year'] }}</td>
             </tr>
             <tr>
-                <td>Average Rating</td>
-                <td>{{ review_stats[0]['avg_rating'] }}</td>
+                <td>Bookrealm Average Rating</td>
+                <td>{{ review_stats['avg_rating'] }}</td>
             </tr>
             <tr>
-                <td>Review Count</td>
-                <td>{{ review_stats[0]['count'] }}</td>
+                <td>Bookrealm Review Count</td>
+                <td>{{ review_stats['count'] }}</td>
+            </tr>
+            <tr>
+                <td>Goodreads Average Rating</td>
+                <td>{{ gr_book_info['average_rating'] }}</td>
+            </tr>
+            <tr>
+                <td>Goodreads Rating Count</td>
+                <td>{{ gr_book_info['work_ratings_count'] }}</td>
             </tr>
             </tbody>
         </table>
