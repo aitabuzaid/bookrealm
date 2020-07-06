@@ -1,5 +1,6 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect,
+    render_template, request, url_for, jsonify
 )
 
 from werkzeug.exceptions import abort
@@ -10,6 +11,7 @@ import requests, os
 
 bp = Blueprint('books', __name__)
 gr_key = os.environ['GR_KEY']
+
 
 @bp.route('/', methods=('GET', 'POST'))
 def index():
@@ -92,12 +94,44 @@ def book(id):
     ).fetchone()
 
     gr_book_info = requests.get("https://www.goodreads.com/book/review_counts.json",
-                                  params={"key": gr_key, "isbns": book_info['isbn']}).json()
-
-
+                                params={"key": gr_key, "isbns": book_info['isbn']}).json()
 
     return render_template('books/book.html',
                            book_info=book_info,
                            reviews=reviews,
                            review_stats=review_stats,
                            gr_book_info=gr_book_info['books'][0])
+
+
+@bp.route("/api/books/<string:isbn>")
+def book_api(isbn):
+    """Return info about a single book"""
+
+    db = get_db()
+    book_info = db.execute("""
+    SELECT *
+    FROM books
+    WHERE isbn = :isbn;
+    """, {"isbn": isbn}).fetchone()
+
+    if book_info is None:
+        return jsonify({"error": "Invalid ISBN or ISBN is not available"}), 404
+
+    review_stats = db.execute(
+            """
+            SELECT COUNT(*) as count,
+                   ROUND(AVG(rating), 2) AS avg_rating
+            from reviews
+            WHERE book_id = :id
+            """,
+            {"id": book_info['id']}
+        ).fetchone()
+
+    return jsonify({
+        "title": book_info['title'],
+        "author": book_info['author'],
+        "year": book_info['year'],
+        "isbn": isbn,
+        "review_count": review_stats['count'],
+        "average_score": float(review_stats['avg_rating'])
+    })
