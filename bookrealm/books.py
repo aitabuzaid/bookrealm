@@ -15,7 +15,7 @@ gr_key = os.environ['GR_KEY']
 
 @bp.route('/', methods=('GET', 'POST'))
 def index():
-    books = None
+    books = "GET"
     if request.method == 'POST':
         query = request.form['query']
         db = get_db()
