@@ -57,7 +57,7 @@
                         <td>{{ review['body'] }}</td>
                         <td>{{ review['rating'] }}</td>
                         <td>{{ review['name'] }}</td>
-                        <td>{{ review['created'] }}</td>
+                        <td>{{ review['created'].strftime("%m/%d/%Y, %H:%M") }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
