@@ -21,24 +21,44 @@
                 <td>Release Year</td>
                 <td>{{ book_info['year'] }}</td>
             </tr>
-            <tr>
-                <td>Bookrealm Average Rating</td>
-                <td>{{ review_stats['avg_rating'] }}</td>
-            </tr>
-            <tr>
-                <td>Bookrealm Review Count</td>
-                <td>{{ review_stats['count'] }}</td>
-            </tr>
-            <tr>
-                <td>Goodreads Average Rating</td>
-                <td>{{ gr_book_info['average_rating'] }}</td>
-            </tr>
-            <tr>
-                <td>Goodreads Rating Count</td>
-                <td>{{ gr_book_info['work_ratings_count'] }}</td>
-            </tr>
             </tbody>
         </table>
+
+        <hr style="border:3px solid #f1f1f1">
+        <span class="heading">Bookrealm Rating</span>
+        {% if review_stats['avg_rating'] %}
+            {% for i in range(review_stats['avg_rating']|round|int) %}
+                <span class="fa fa-star checked"></span>
+            {% endfor %}
+            {% for i in range(5-review_stats['avg_rating']|round|int) %}
+                <span class="fa fa-star"></span>
+            {% endfor %}
+
+            <p>{{ review_stats['avg_rating'] }} average based on {{ review_stats['count'] }} reviews.</p>
+        {% else %}
+            <p>No reviews on Bookrealm yet, maybe write your own?</p>
+        {% endif %}
+
+
+        <hr style="border:3px solid #f1f1f1">
+
+        <span class="heading">Goodreads Rating</span>
+        {% if gr_book_info['average_rating'] %}
+            {% for i in range(gr_book_info['average_rating']|float|round|int) %}
+                <span class="fa fa-star checked"></span>
+            {% endfor %}
+            {% for i in range(5-gr_book_info['average_rating']|float|round|int) %}
+                <span class="fa fa-star"></span>
+            {% endfor %}
+
+
+            <p>{{ gr_book_info['average_rating'] }} average based on {{ gr_book_info['work_ratings_count'] }} reviews.</p>
+        {% else %}
+            <p>No reviews on Bookrealm yet, maybe write your own?</p>
+        {% endif %}
+
+        <hr style="border:3px solid #f1f1f1">
+
         <h2>Book Reviews:</h2>
         {% if reviews %}
             <table class="table table-hover">
@@ -57,7 +77,7 @@
                         <td>{{ review['body'] }}</td>
                         <td>{{ review['rating'] }}</td>
                         <td>{{ review['name'] }}</td>
-                        <td>{{ review['created'].strftime("%m/%d/%Y, %H:%M") }}</td>
+                        <td>{{ review['created'].strftime("%m/%d/%Y, %H:%M GMT") }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

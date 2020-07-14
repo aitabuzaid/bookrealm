@@ -5,3 +5,24 @@
 div.jumbotron {
   margin-bottom: 0px;
   background-color: #E17451;}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial;
+}
+
+.heading {
+  font-size: 25px;
+  margin-right: 25px;
+}
+
+.fa {
+  font-size: 25px;
+}
+
+.checked {
+  color: orange;
+}
