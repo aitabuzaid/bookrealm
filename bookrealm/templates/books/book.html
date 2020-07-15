@@ -1,28 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="container">
-        <table id="myTable2" class="table table-striped" style="width:100%; padding:30px; margin: 30px;">
-            <thead>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Book Title</td>
-                <td>{{ book_info['title'] }}</td>
-            </tr>
-            <tr>
-                <td>Author</td>
-                <td>{{ book_info['author'] }}</td>
-            </tr>
-            <tr>
-                <td>Book ISBN</td>
-                <td>{{ book_info['isbn'] }}</td>
-            </tr>
-            <tr>
-                <td>Release Year</td>
-                <td>{{ book_info['year'] }}</td>
-            </tr>
-            </tbody>
-        </table>
+        <p><strong>Book:</strong> <i>{{ book_info['title'] }}</i>
+            by <i>{{ book_info['author'] }}</i></p>
+        <p><strong>ISBN:</strong> {{ book_info['isbn'] }}</p>
+        <p><strong>Release Year:</strong> {{ book_info['year'] }}</p>
 
         <hr style="border:3px solid #f1f1f1">
         <span class="heading">Bookrealm Rating</span>
