@@ -15,7 +15,6 @@ gr_key = os.environ['GR_KEY']
 
 @bp.route('/', methods=('GET', 'POST'))
 def index():
-    books = "GET"
     if request.method == 'POST':
         query = request.form['query']
         db = get_db()
@@ -28,6 +27,17 @@ def index():
         OR LOWER(author) LIKE CONCAT('%',:query,'%')
         """, {"query": query}
         ).fetchall()
+    else:
+        db = get_db()
+        books = db.execute(
+            """
+        SELECT *
+        FROM books 
+        ORDER BY year DESC
+        LIMIT 20;
+        """
+        ).fetchall()
+
     return render_template('books/index.html', books=books)
 
 
