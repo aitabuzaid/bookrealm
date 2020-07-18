@@ -54,11 +54,19 @@ def book(id):
         SELECT * FROM reviews 
         WHERE user_id = :user_id and book_id = :book_id
         """, {"user_id": g.user[0], "book_id": id}).fetchone() is not None:
-            error = "User {} already posted a review for this book".format(
-                g.user
-            )
-
-        if error is None:
+            db.execute("""
+            UPDATE reviews
+            SET book_id = :book_id, 
+                user_id = :user_id,
+                body = :body,
+                rating = :rating
+            WHERE user_id = :user_id and book_id = :book_id
+            """, {"book_id": id,
+                  "user_id": g.user[0],
+                  "body": body,
+                  "rating": rating})
+            db.commit()
+        else:
             db.execute("""
             INSERT INTO reviews (book_id, user_id, body, rating)
             VALUES (:book_id, :user_id, :body, :rating)
